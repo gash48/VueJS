@@ -1,0 +1,62 @@
+.row{
+    margin: 20px -15px;
+    padding: 10px 20px;    
+}
+
+.centerContent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.healthContainer{
+    text-align: center;
+    padding: 10px 20px;
+    border: 1px solid #dedede;
+}
+
+.healthBar{
+    height: 25px;
+    border: 1px solid #dedede;
+    border-radius: 10px;
+}
+
+.healthBar .progressHealth{
+    height: 100%;
+    border: inherit;
+    border-radius: inherit;
+}
+
+.logContainer .logMessage{
+    text-align: center;
+    color: white;
+    margin-bottom: 0.3rem;
+}
+
+.playerMessageColor{
+    background-color: teal;
+}
+
+.opponentMessageColor{
+    background-color: lightcoral;
+}
+
+.healthGood{
+    background-color: green;
+}
+
+.healthAvg{
+    background-color: chartreuse;
+}
+
+.healthPoor{
+    background-color: #ffc107;
+}
+
+.healthBad{
+    background-color: #dc3545;
+}
+
+
+
+

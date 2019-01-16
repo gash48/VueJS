@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <Title>Vue Monster Project</Title>
+    <link rel="stylesheet" href="../Lib/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="shortcut icon" href="./monster.png" />
+    <script src="../Lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="gameContainer" class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <div class="healthContainer">
+                    <h3>{{player.name}}</h3>
+                    <div class="healthBar">
+                        <div class="progressHealth" :class="applyDamageClass(player.health)" :style="{width: player.health + '%'}"></div>
+                    </div>
+                    <h5>{{player.health}}</h5>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <div class="healthContainer text-center">
+                    <h3>{{opponent.name}}</h3>
+                    <div class="healthBar">
+                        <div class="progressHealth" :class="applyDamageClass(opponent.health)" :style="{width: opponent.health + '%'}"></div>
+                    </div>
+                    <h5>{{opponent.health}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 centerContent" v-show="!gameIsRunning">
+                <button class="btn btn-primary" @click="gameIsRunning = !gameIsRunning">Start Game</button>
+            </div>
+        </div>
+        <div class="row" v-show="gameIsRunning">
+            <div class="col-md-3 col-xs-3 centerContent">
+                <button class="btn btn-danger" @click="attack" :disabled = "player.health <= 0">Attack</button>
+            </div>
+            <div class="col-md-3 col-xs-3 centerContent">
+                <button class="btn btn-info" @click="specialAttack" :disabled = "player.health <= 0">Special Attack</button>
+            </div>
+            <div class="col-md-3 col-xs-3 centerContent">
+                <button class="btn btn-success" @click="healPlayers" :disabled = "player.health >= initialPlayersHealth" >Heal</button>
+            </div>
+            <div class="col-md-3 col-xs-3 centerContent">
+                <button class="btn btn-secondary" @click="resetGame">Give Up !</button>
+            </div>
+        </div>
+
+        <div class="card logContainer" v-show="gameIsRunning">
+            <div class="card-header">
+                <h5 class="logHeader text-center">Fight Logs</h5>
+            </div>
+            <div class="card-body" v-if="logsArr.length > 0" style="height: 50%;overflow: auto">
+                <p class="logMessage" v-for="(log,index) in logsArr" :key="'log'+index" :data-attr="'log'+index" :class="log.class">{{log.name}} was hit by {{log.damage}} damage</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./controller.js"></script>
+</body>
+
+</html>

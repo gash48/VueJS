@@ -1,0 +1,5 @@
+*/.vscode
+*/node_modules
+*/README.md
+*/dist
+*/package-lock.json
