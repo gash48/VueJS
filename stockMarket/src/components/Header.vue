@@ -16,8 +16,20 @@
         <li class="headerItem" :title="'Current Day ' + getDay" @click="dayIncrement">
           <a>End Day</a>
         </li>
-        <li class="headerItem">
+        <li
+          class="headerItem"
+          @mouseenter="showActionList = true"
+          @mouseleave="showActionList = false"
+        >
           <a>Save & Load</a>
+          <ul class="saveLoadList" v-show="showActionList">
+            <li class="actionList" @click="saveStocks">
+              <a>Save</a>
+            </li>
+            <li class="actionList" @click="loadStocks">
+              <a>Load</a>
+            </li>
+          </ul>
         </li>
         <li class="headerItem">
           <b>Available Funds :</b>
@@ -25,37 +37,31 @@
         </li>
       </div>
     </ul>
-    <div class="row">
-      <button class="btn btn-primary" @click="postData">Post Me</button>
-    </div>
   </div>
 </template>
 
 <script>
 import { routes } from "../navigation/routes";
 import { mapGetters, mapActions } from "vuex";
+import CONSTANTS from "../store/constants";
 
 export default {
   data() {
     return {
-      links: routes
+      links: routes,
+      showActionList: false
     };
   },
   methods: {
-    ...mapActions(["dayIncrement"]),
-    postData() {
-      // this.$http.get("data.json").then(
-      //   res => {
-      //     console.log(res);
-      //   },
-      //   err => {
-      //     console.log(err);
-      //   }
-      // );
-    }
+    ...mapActions(["dayIncrement","getUserState", "saveStocks", "loadStocks", "fetchAvailableStocks"]),
   },
   computed: {
     ...mapGetters(["getDay", "getFunds"])
+  },
+  created(){
+    this.fetchAvailableStocks();
+    this.loadStocks();
+    this.getUserState();
   }
 };
 </script>
@@ -78,5 +84,23 @@ export default {
 }
 .inlineContainer {
   display: inline-flex;
+}
+.saveLoadList {
+  position: absolute;
+  z-index: 99;
+  list-style: none;
+  width: 100px;
+  text-align: center;
+  margin: 10px auto;
+  background: transparent;
+  padding: 0px;
+}
+.actionList {
+  padding: 10px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+}
+.actionList:hover {
+  background: #dedede;
 }
 </style>

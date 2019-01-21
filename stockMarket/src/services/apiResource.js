@@ -12,12 +12,9 @@ const DataParser = (response) => {
 
 const Interceptor = (request, next) => {
     console.log("Request Sent");
-    console.log(request);
     next((response) => {
-        return response.json().then((data) => {
-            return DataParser(data);
-        })
-    })
+        console.log("Response Received");
+    });
 };
 
 Vue.use(VueResource);

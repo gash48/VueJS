@@ -1,3 +1,5 @@
+import CONSTANTS from '../constants';
+
 const state = {
     stockBalance: []
 };
@@ -14,6 +16,12 @@ const mutations = {
     },
     sellStock(state, stockIndex) {
         state.stockBalance.splice(stockIndex, 1);
+    },
+    saveStocks(state) {
+        console.log("Stocks Saved SuccessFully");
+    },
+    loadStocks(state, fetchedStocks) {
+        state.stockBalance = fetchedStocks;
     }
 };
 
@@ -30,6 +38,24 @@ const actions = {
 
         commit('sellStock', stockIndex);
         dispatch('fundChange', changedFund);
+        dispatch('saveStocks');
+    },
+    saveStocks({ commit, dispatch }) {
+        this._vm.$http.put(CONSTANTS.DB_NODE_USER_STOCKS, state.stockBalance)
+            .then(res => {
+                commit('saveStocks');
+                dispatch('setUserState');
+            }, err => {
+                console.log(err);
+            });
+    },
+    loadStocks({ commit }) {
+        this._vm.$http.get(CONSTANTS.DB_NODE_USER_STOCKS)
+            .then(res => {
+                commit('loadStocks', res.data || []);
+            }, err => {
+                console.log(err)
+            });
     }
 };
 

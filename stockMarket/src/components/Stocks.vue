@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     ...mapActions(["buyStock"]),
-    stockHandler(stockIndex) {
-      this.buyStock(stockIndex);
+    stockHandler(stock) {
+      this.buyStock(stock);
     }
   },
   computed: {

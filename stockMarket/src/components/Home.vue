@@ -22,6 +22,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import CONSTANTS from "../store/constants";
 
 export default {
   computed: {
@@ -29,7 +30,7 @@ export default {
   },
   methods: {
     ...mapActions(["dayIncrement"])
-  }
+  },
 };
 </script>
 
