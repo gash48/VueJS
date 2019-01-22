@@ -35,11 +35,7 @@
 export default {
   methods: {
     stockBuy(stock, index) {
-      if (stock.quantity) {
-        this.$emit("stockHandler", stock);
-      } else {
-        alert(`No Quantity to ${this.cardData.type}`);
-      }
+      this.$emit("stockHandler", stock);
     },
     stockSell(index) {
       this.$emit("stockHandler", index);

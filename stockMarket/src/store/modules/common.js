@@ -40,7 +40,7 @@ const actions = {
         dispatch('changeAllStocksPrice');
         // ------------------------------- //
         dispatch('setUserState');
-        dispatch('postStocks');
+        dispatch('postAvailableStocks');
         dispatch('saveStocks');
         console.log("Day Ended");
     },
