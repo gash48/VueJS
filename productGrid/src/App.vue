@@ -17,7 +17,7 @@
 <script>
 import { eventBus } from "./main";
 import { mapActions, mapGetters } from "vuex";
-import EVENTS from './store/events';
+import EVENTS from "./store/events";
 import header from "./components/Header.vue";
 import sideBar from "./components/SideBar.vue";
 import productGrid from "./components/ProductGrid.vue";
@@ -30,7 +30,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchProducts"])
+    ...mapActions(["fetchProducts", "updateFiltersFromHash"])
+  },
+  watch: {
+    "$route.hash": function(value) {
+      this.updateFiltersFromHash(value);
+    }
   },
   computed: {
     ...mapGetters([
@@ -38,7 +43,8 @@ export default {
       "getPaginatedProducts",
       "getCurrentPage",
       "getPaginationFilter",
-      "getNoOfPages"
+      "getNoOfPages",
+      "getHashState"
     ])
   },
   created() {
