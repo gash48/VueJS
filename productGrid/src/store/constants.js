@@ -8,16 +8,17 @@ const PAGINATION_VALUES = [4, 3, 6, 9];
 const DEFAULT_RECORDS_TO_SHOW = PAGINATION_VALUES[0];
 const SORTING_VALUES = ['', 'name', 'brand', 'color'];
 
+const DEFAULT_IMAGE = 'sample.png';
 const DEFAULT_FILTERS = {
-  brand: [],
-  color: [],
-  sold_out: [],
+    brand: [],
+    color: [],
+    sold_out: [],
 };
 
 const SPECIAL_FILTERS = {
-    sold_out : {
-        label : 'Availability',
-        getValue(val){
+    sold_out: {
+        label: 'Availability',
+        getValue(val) {
             return !(parseInt(val, 10)) ? 'Available' : 'Sold Out';
         }
     }
@@ -27,10 +28,11 @@ export default {
     DB_BASE_URL,
     DB_NODE_PRODUCTS,
     DB_NODE_FILTERS,
-	DB_NODE_HASHSTATE,
-	SOCKET_THRESHHOLD_TIME,
+    DB_NODE_HASHSTATE,
+    SOCKET_THRESHHOLD_TIME,
     PAGINATION_VALUES,
     DEFAULT_RECORDS_TO_SHOW,
+    DEFAULT_IMAGE,
     SORTING_VALUES,
     DEFAULT_FILTERS,
     SPECIAL_FILTERS,

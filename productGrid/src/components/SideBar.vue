@@ -2,25 +2,25 @@
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
       <li class="sidebar-brand">
-        <a href="#">Filters</a>
+        <a class="listHead">Filters</a>
       </li>
 
       <li v-for="(value, key, index) in this.getFilters" :key="index" :data-access="key">
-        <a href="#">{{ key | filterLabel }}</a>
-        <app-filter-widget :options="value" :filterName="key"></app-filter-widget>
+        <a class="listHead">{{ key | filterLabel }}</a>
+          <app-filter-widget :options="value" :filterName="key"></app-filter-widget>
       </li>
 
       <li data-access="pagination">
-        <a href="#">Pagination</a>
+        <a class="listHead">Pagination</a>
         <app-drop-down-filter :options="getPaginationOptions" :propName="'rpp'"></app-drop-down-filter>
       </li>
       <li data-access="sorting">
-        <a href="#">Sorting</a>
+        <a class="listHead">Sorting</a>
         <app-drop-down-filter :options="getSortingOptions" :propName="'sort'"></app-drop-down-filter>
       </li>
 
       <li @click="resetAll">
-        <a href="#">
+        <a class="listHead">
           <i class="fa fa-refresh" aria-hidden="true"></i>Reset All
         </a>
       </li>
@@ -95,6 +95,9 @@ input[type="checkbox"],
 input[type="radio"] {
   width: 20%;
   float: right;
+}
+.listHead {
+  color: #999999 !important;
 }
 a {
   text-transform: capitalize;

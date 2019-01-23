@@ -1,7 +1,11 @@
 <template>
   <div v-if="products.length > 0">
     <div class="productCard" v-for="(product, index) in products" :key="index">
-      <img class="card-img-top" :src="`/src/assets/images/${product.url}`" alt="No Picture Available">
+      <img
+        class="card-img-top"
+        :src="`/src/assets/images/${product.url}`"
+        alt="No Picture Available"
+      >
       <div class="card-body">
         <h5 class="text-center">{{product.name}}</h5>
       </div>
@@ -31,6 +35,7 @@ export default {
 
 .card-img-top {
   width: 100%;
+  height: 180px;
 }
 
 .productCard:hover {

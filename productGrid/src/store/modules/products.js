@@ -52,11 +52,12 @@ const actions = {
                 console.log(err)
             });
     },
-    addProducts({ commit, rootState }, payload) {
+    addProducts({ commit, rootState, dispatch }, payload) {
         commit('addProduct', payload);
         this._vm.$http.put(CONSTANTS.DB_NODE_PRODUCTS, state.originalProducts)
             .then(res => {
                 if (res.status === 200) {
+                    commit('setFilters', AppUtil.getFilterValues(res.body));
                     dispatch('updateAddons', rootState.sorting.sortingFilter);
                 }
             }, err => {
@@ -74,7 +75,7 @@ const actions = {
     },
     updateHashState({ commit, rootState }) {
         const hashString = AppUtil.getHashEncodedUrl(
-            rootState.filters.appliedFilters, rootState.sorting.sortingFilter || '-1',
+            rootState.filters.appliedFilters, rootState.sorting.sortingFilter,
             rootState.pagination.currentPage, rootState.pagination.paginationFilter
         );
         window.location.hash = hashString;
@@ -107,6 +108,7 @@ const actions = {
             httpRef.get(CONSTANTS.DB_NODE_PRODUCTS)
                 .then(res => {
                     if (res.status === 200) {
+                        commit('setFilters', AppUtil.getFilterValues(res.body));
                         commit('setFetchedProducts', res.body);
                         commit('setSortedProducts', res.body);
                         dispatch('updateAddons', rootState.sorting.sortingFilter);
