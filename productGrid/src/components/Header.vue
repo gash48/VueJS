@@ -5,6 +5,16 @@
         <i class="fa fa-filter" aria-hidden="true"></i>
       </a>
       Products
+      <a
+        v-if="!backSwitch"
+        class="btn btn-secondary pull-right"
+        @click="goToAddProducts"
+      >
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </a>
+      <a v-else class="btn btn-secondary pull-right" @click="goToHome">
+        <i class="fa fa-arrow-left"></i>
+      </a>
     </p>
   </div>
 </template>
@@ -17,13 +27,22 @@ import EVENTS from "../store/events";
 export default {
   data() {
     return {
-      menuSwitch: false
+      menuSwitch: false,
+      backSwitch: false
     };
   },
   methods: {
     menuToggle() {
       this.menuSwitch = !this.menuSwitch;
       eventBus.$emit(EVENTS.MENU_TOGGLE, this.menuSwitch);
+    },
+    goToAddProducts() {
+      this.backSwitch = !this.backSwitch;
+      this.$router.push({ name: "addProduct" });
+    },
+    goToHome() {
+      this.backSwitch = !this.backSwitch;
+      this.$router.push({ name: "productList" });
     }
   }
 };

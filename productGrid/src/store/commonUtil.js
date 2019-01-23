@@ -58,7 +58,7 @@ const getDecodedFilterFromUrl = (hash) => {
     };
 };
 
-const getHashEncodedUrl = (appliedFilter = {}, sortProp = '-1', page = 1, recordsPerPage) => {
+const getHashEncodedUrl = (appliedFilter = {}, sortProp = '', page = 1, recordsPerPage) => {
     const hashObject = {
         filters: appliedFilter,
         sort: sortProp,

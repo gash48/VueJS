@@ -18,8 +18,9 @@ const getters = {
 };
 
 const mutations = {
-    addProduct() {
-        // Later Addon
+    addProduct(state, product) {
+        state.originalProducts.push(product);
+        state.sortedProducts.push(product);
     },
     setProducts(state, newProducts) {
         state.products = newProducts;
@@ -51,6 +52,17 @@ const actions = {
                 console.log(err)
             });
     },
+    addProducts({ commit, rootState }, payload) {
+        commit('addProduct', payload);
+        this._vm.$http.put(CONSTANTS.DB_NODE_PRODUCTS, state.originalProducts)
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch('updateAddons', rootState.sorting.sortingFilter);
+                }
+            }, err => {
+                console.log(err);
+            });
+    },
     filterProducts({ commit, state }, appliedFilters) {
         const filteredProducts = AppUtil.allinOnefilter(state.sortedProducts, appliedFilters);
         commit('setProducts', filteredProducts);
@@ -74,16 +86,35 @@ const actions = {
         commit('setAppliedFilters', urlDecoded.filters || CONSTANTS.DEFAULT_FILTERS);
         commit('setCurrentPage', urlDecoded.page || 1);
         commit('setPaginationOption', urlDecoded.rpp || CONSTANTS.DEFAULT_RECORDS_TO_SHOW);
-        commit('setSortingOption', urlDecoded.sort === "-1" ? '' : urlDecoded.sort);
+        commit('setSortingOption', urlDecoded.sort);
 
-        dispatch('updateAddons');
+        dispatch('updateAddons', urlDecoded.sort);
     },
-    updateAddons({ dispatch, rootState }) {
+    updateAddons({ dispatch, rootState, commit }, sort) {
         dispatch('filterProducts', rootState.filters.appliedFilters).then(() => {
-            dispatch('updateSortingOption', rootState.sorting.sortingFilter).then(() => {
-                dispatch('updatePaginationOption', rootState.pagination.paginationFilter);
-            });
+            if (sort) {
+                dispatch('sortProducts', sort).then(() => {
+                    commit('setNoOfPages', rootState);
+                });
+            } else {
+                commit('setNoOfPages', rootState);
+            }
         });
+    },
+    updateProductsFromSocket({ commit, dispatch, rootState }) {
+        const httpRef = this._vm.$http;
+        setInterval(function socketCall() {
+            httpRef.get(CONSTANTS.DB_NODE_PRODUCTS)
+                .then(res => {
+                    if (res.status === 200) {
+                        commit('setFetchedProducts', res.body);
+                        commit('setSortedProducts', res.body);
+                        dispatch('updateAddons', rootState.sorting.sortingFilter);
+                    }
+                }, err => {
+                    console.log(err);
+                });
+        }, CONSTANTS.SOCKET_THRESHHOLD_TIME);
     },
     resetState({ commit, dispatch, state }) {
         commit('setProducts', state.originalProducts);

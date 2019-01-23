@@ -34,8 +34,8 @@ const mutations = {
     setCurrentPage(state, newPage) {
         state.currentPage = newPage;
     },
-    setNoOfPages(state, {products, pagination}) {
-        state.noOfPages = Math.ceil( products.products.length / pagination.paginationFilter);
+    setNoOfPages(state, { products, pagination }) {
+        state.noOfPages = Math.ceil(products.products.length / pagination.paginationFilter);
     }
 };
 
@@ -43,6 +43,9 @@ const actions = {
     updatePaginationControls({ commit, rootState }) {
         commit('setCurrentPage', 1);
         commit('setNoOfPages', rootState);
+    },
+    updateCurrentPage({ commit }, currentPage) {
+        commit('setCurrentPage', currentPage);
     },
     updatePaginationOption({ commit, dispatch }, option) {
         commit('setPaginationOption', option);

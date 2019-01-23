@@ -3,7 +3,9 @@
     <app-side-bar></app-side-bar>
     <div id="page-content-wrapper">
       <app-header></app-header>
-      <app-product-grid :products="getPaginatedProducts"></app-product-grid>
+
+      <router-view id="routerContainer" :products="getPaginatedProducts"></router-view>
+
       <app-pagination-control
         :pages="getNoOfPages"
         :recordsToShow="getPaginationFilter"
@@ -30,7 +32,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchProducts", "updateFiltersFromHash"])
+    ...mapActions([
+      "fetchProducts",
+      "updateProductsFromSocket",
+      "updateFiltersFromHash"
+    ])
   },
   watch: {
     "$route.hash": function(value) {
@@ -49,6 +55,7 @@ export default {
   },
   created() {
     this.fetchProducts();
+    this.updateProductsFromSocket();
     eventBus.$on(EVENTS.MENU_TOGGLE, val => {
       this.openMenu = val;
     });
@@ -151,5 +158,10 @@ export default {
 .sidebar-nav > .sidebar-brand a:hover {
   color: #fff;
   background: none;
+}
+#routerContainer {
+  padding: 15px;
+  margin: 50px auto;
+  text-align: center;
 }
 </style>
